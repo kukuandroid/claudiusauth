@@ -67,6 +67,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   inputRow: {
     flexDirection: 'row',
@@ -81,6 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#111827',
     flex: 1,
+    minHeight: 24, // sometimes needed for React Native spacing
   },
   eyeIcon: {
     position: 'absolute',
