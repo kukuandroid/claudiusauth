@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   StyleSheet,
   NativeSyntheticEvent,
   TextInputSubmitEditingEventData,
@@ -12,7 +9,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { isValidEmail, isNonEmpty } from '../utils/validators';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import AppText from '../components/AppText';
+import AppTextInput from '../components/AppTextInput';
+import AppButton from '../components/AppButton';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -90,70 +89,44 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back</Text>
-      <Text style={styles.subtitle}>Sign in to continue</Text>
+      <AppText variant="title">Welcome back</AppText>
+      <AppText variant="subtitle">Sign in to continue</AppText>
 
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Email</Text>
-        <View style={styles.inputWrapper}>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={handleEmailChange}
-            onBlur={handleEmailBlur}
-            onSubmitEditing={handleEmailSubmit}
-            placeholder="Enter your email"
-            placeholderTextColor="#9ca3af"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-        </View>
-        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
-      </View>
+      <AppTextInput
+        label="Email"
+        value={email}
+        onChangeText={handleEmailChange}
+        onBlur={handleEmailBlur}
+        onSubmitEditing={handleEmailSubmit}
+        placeholder="Enter your email"
+        keyboardType="email-address"
+        autoCapitalize="none"
+        autoCorrect={false}
+        error={emailError}
+      />
 
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Password</Text>
-        <View style={styles.inputRow}>
-          <View style={styles.inputWrapper}>
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={handlePasswordChange}
-              onBlur={handlePasswordBlur}
-              placeholder="Enter your password"
-              placeholderTextColor="#9ca3af"
-              secureTextEntry={!passwordVisible}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
-          <TouchableOpacity
-            style={styles.eyeIcon}
-            onPress={() => setPasswordVisible(v => !v)}
-          >
-            <Icon
-              name={passwordVisible ? 'visibility' : 'visibility-off'}
-              size={24}
-              color="#6b7280"
-            />
-          </TouchableOpacity>
-        </View>
-        {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
-      </View>
+      <AppTextInput
+        label="Password"
+        value={password}
+        onChangeText={handlePasswordChange}
+        onBlur={handlePasswordBlur}
+        placeholder="Enter your password"
+        secureTextEntry={!passwordVisible}
+        autoCapitalize="none"
+        autoCorrect={false}
+        error={passwordError}
+        showPasswordToggle
+        onPasswordToggle={() => setPasswordVisible(v => !v)}
+        isPasswordVisible={passwordVisible}
+      />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+      <AppButton title="Login" onPress={handleLogin} />
 
-      <TouchableOpacity
-        style={styles.linkButton}
+      <AppButton
+        variant="link"
+        title="Don't have an account? Sign up"
         onPress={() => navigation.navigate('Signup')}
-      >
-        <Text style={styles.linkText}>
-          Don't have an account? <Text style={styles.link}>Sign up</Text>
-        </Text>
-      </TouchableOpacity>
+      />
     </View>
   );
 };
@@ -164,75 +137,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 24,
     backgroundColor: '#ffffff',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#111827',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#6b7280',
-    marginBottom: 32,
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 8,
-  },
-  inputWrapper: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-  },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    fontSize: 16,
-    color: '#111827',
-    flex: 1,
-  },
-  eyeIcon: {
-    position: 'absolute',
-    right: 12,
-  },
-  errorText: {
-    color: '#dc2626',
-    fontSize: 12,
-    marginTop: 4,
-  },
-  button: {
-    backgroundColor: '#4f46e5',
-    borderRadius: 8,
-    paddingVertical: 14,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  linkButton: {
-    marginTop: 24,
-    alignItems: 'center',
-  },
-  linkText: {
-    fontSize: 14,
-    color: '#6b7280',
-  },
-  link: {
-    color: '#4f46e5',
-    fontWeight: '600',
   },
 });
 
