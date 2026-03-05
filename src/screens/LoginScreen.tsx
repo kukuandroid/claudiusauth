@@ -4,6 +4,11 @@ import {
   StyleSheet,
   NativeSyntheticEvent,
   TextInputSubmitEditingEventData,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Image,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types';
@@ -12,6 +17,7 @@ import { isValidEmail, isNonEmpty } from '../utils/validators';
 import AppText from '../components/AppText';
 import AppTextInput from '../components/AppTextInput';
 import AppButton from '../components/AppButton';
+import { ASSETS } from '../config/assets';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -25,7 +31,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   const validateEmail = (): boolean => {
     if (!isNonEmpty(email)) {
-      setEmailError('Email is required.');
+      setEmailError('Username/Email is required.');
       return false;
     }
     if (!isValidEmail(email)) {
@@ -81,62 +87,176 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const handleEmailSubmit = (
-    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
+    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
   ): void => {
     e.preventDefault();
     validateEmail();
   };
 
   return (
-    <View style={styles.container}>
-      <AppText variant="title">Welcome back</AppText>
-      <AppText variant="subtitle">Sign in to continue</AppText>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Top illustration */}
+        <View style={styles.illustrationContainer}>
+          <Image
+            source={{ uri: ASSETS.images.loginIllustration }}
+            style={styles.illustration}
+            resizeMode="contain"
+          />
+        </View>
 
-      <AppTextInput
-        label="Email"
-        value={email}
-        onChangeText={handleEmailChange}
-        onBlur={handleEmailBlur}
-        onSubmitEditing={handleEmailSubmit}
-        placeholder="Enter your email"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoCorrect={false}
-        error={emailError}
-      />
+        <View style={styles.headerContainer}>
+          <AppText style={styles.title}>Login</AppText>
+          <AppText style={styles.subtitle}>Please Sign in to continue.</AppText>
+        </View>
 
-      <AppTextInput
-        label="Password"
-        value={password}
-        onChangeText={handlePasswordChange}
-        onBlur={handlePasswordBlur}
-        placeholder="Enter your password"
-        secureTextEntry={!passwordVisible}
-        autoCapitalize="none"
-        autoCorrect={false}
-        error={passwordError}
-        showPasswordToggle
-        onPasswordToggle={() => setPasswordVisible(v => !v)}
-        isPasswordVisible={passwordVisible}
-      />
-
-      <AppButton title="Login" onPress={handleLogin} />
-
-      <AppButton
-        variant="link"
-        title="Don't have an account? Sign up"
-        onPress={() => navigation.navigate('Signup')}
-      />
-    </View>
+        <View style={styles.formContainer}>
+          <AppTextInput
+            value={email}
+            onChangeText={handleEmailChange}
+            onBlur={handleEmailBlur}
+            onSubmitEditing={handleEmailSubmit}
+            placeholder="Username"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            error={emailError}
+            leftIconName="person-outline"
+            containerStyle={styles.inputSpacing}
+            inputContainerStyle={styles.inputContainerStyle}
+          />
+          <AppTextInput
+            value={password}
+            onChangeText={handlePasswordChange}
+            onBlur={handlePasswordBlur}
+            placeholder="••••••••••••"
+            secureTextEntry={!passwordVisible}
+            autoCapitalize="none"
+            autoCorrect={false}
+            error={passwordError}
+            showPasswordToggle
+            onPasswordToggle={() => setPasswordVisible(v => !v)}
+            isPasswordVisible={passwordVisible}
+            leftIconName="lock-outline"
+            containerStyle={styles.inputSpacing}
+            inputContainerStyle={styles.inputContainerStyle}
+          />
+          <View style={styles.rememberRow} />
+          <AppButton
+            title="Sign In"
+            onPress={handleLogin}
+            style={styles.signInButton}
+            textStyle={styles.signInButtonText}
+          />
+          <View style={styles.footerRow}>
+            <AppText style={styles.footerText}>Don't have account? </AppText>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Signup')}
+              activeOpacity={0.7}
+            >
+              <AppText style={styles.signUpText}>Sign Up</AppText>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 24,
     backgroundColor: '#ffffff',
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: 28,
+    paddingBottom: 40,
+    paddingTop: 60,
+  },
+  illustrationContainer: {
+    height: 320,
+    marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  illustration: {
+    width: '100%',
+    height: '100%',
+  },
+  headerContainer: {
+    marginBottom: 32,
+  },
+  title: {
+    fontSize: 36,
+    fontWeight: '700',
+    color: '#18314F',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 15,
+    color: '#374151',
+    fontWeight: '500',
+  },
+  formContainer: {
+    flex: 1,
+  },
+  inputSpacing: {
+    marginBottom: 20,
+  },
+  inputContainerStyle: {
+    backgroundColor: '#f5f6f8',
+    borderWidth: 0,
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+  },
+  rememberRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 32,
+    marginTop: -4,
+  },
+  rememberText: {
+    fontSize: 13,
+    color: '#4b5563',
+    fontWeight: '500',
+  },
+  signInButton: {
+    backgroundColor: '#18314F',
+    borderRadius: 30,
+    paddingVertical: 18,
+    shadowColor: '#18314F',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  signInButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  footerRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 24,
+  },
+  footerText: {
+    color: '#9ca3af',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  signUpText: {
+    color: '#18314F',
+    fontSize: 14,
+    fontWeight: '700',
   },
 });
 
