@@ -6,8 +6,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInputProps,
+  ViewStyle,
 } from 'react-native';
 import { MaterialIcons as Icon } from '@react-native-vector-icons/material-icons';
+import { FontAwesomeFreeSolid } from '@react-native-vector-icons/fontawesome-free-solid';
 
 interface AppTextInputProps extends TextInputProps {
   label?: string;
@@ -15,7 +17,10 @@ interface AppTextInputProps extends TextInputProps {
   showPasswordToggle?: boolean;
   onPasswordToggle?: () => void;
   isPasswordVisible?: boolean;
-  containerStyle?: any;
+  containerStyle?: ViewStyle | ViewStyle[];
+  inputContainerStyle?: ViewStyle | ViewStyle[];
+  leftIconName?: string;
+  leftIconProvider?: 'MaterialIcons' | 'FontAwesome';
 }
 
 const AppTextInput: React.FC<AppTextInputProps> = ({
@@ -25,12 +30,24 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
   onPasswordToggle,
   isPasswordVisible = false,
   containerStyle,
+  inputContainerStyle,
+  leftIconName,
+  leftIconProvider = 'MaterialIcons',
   ...textInputProps
 }) => {
   return (
     <View style={[styles.container, containerStyle]}>
       {label && <Text style={styles.label}>{label}</Text>}
-      <View style={showPasswordToggle ? styles.inputRow : styles.inputWrapper}>
+      <View style={[styles.inputWrapper, inputContainerStyle]}>
+        {leftIconName && (
+          <View style={styles.leftIconContainer}>
+            {leftIconProvider === 'MaterialIcons' ? (
+              <Icon name={leftIconName as any} size={20} color="#6b7280" />
+            ) : (
+              <FontAwesomeFreeSolid name={leftIconName as any} size={18} color="#6b7280" />
+            )}
+          </View>
+        )}
         <TextInput
           style={styles.input}
           placeholderTextColor="#9ca3af"
@@ -62,22 +79,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#d1d5db',
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
+    backgroundColor: '#ffffff',
   },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+  leftIconContainer: {
+    marginRight: 12,
   },
   input: {
     fontSize: 16,
