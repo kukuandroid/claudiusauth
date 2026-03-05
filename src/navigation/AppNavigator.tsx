@@ -5,17 +5,20 @@ import { useAuth } from '../context/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
 import HomeScreen from '../screens/HomeScreen';
+import LoadingScreen from '../screens/LoadingScreen';
 import { RootStackParamList } from '../types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {user ? (
+        {isLoading ? (
+          <Stack.Screen name="Loading" component={LoadingScreen} />
+        ) : user ? (
           <Stack.Screen name="Home" component={HomeScreen} />
         ) : (
           <>

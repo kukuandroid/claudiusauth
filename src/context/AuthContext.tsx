@@ -6,12 +6,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const usersRef = useRef<StoredUser[]>([]); // in-memory user store
 
   // Restore persisted session on mount
   useEffect(() => {
     AsyncStorage.getItem('user').then(raw => {
       if (raw) setUser(JSON.parse(raw));
+      setIsLoading(false);
     });
   }, []);
 
@@ -41,7 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );

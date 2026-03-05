@@ -9,6 +9,7 @@ export interface StoredUser extends User {
 
 export interface AuthContextType {
   user: User | null;
+  isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -16,6 +17,7 @@ export interface AuthContextType {
 
 // React Navigation param list
 export type RootStackParamList = {
+  Loading: undefined;
   Login: undefined;
   Signup: undefined;
   Home: undefined;
