@@ -86,8 +86,7 @@ const styles = StyleSheet.create({
     minHeight: 24, // sometimes needed for React Native spacing
   },
   eyeIcon: {
-    position: 'absolute',
-    right: 12,
+    paddingLeft: 10,
   },
   errorText: {
     color: '#dc2626',
