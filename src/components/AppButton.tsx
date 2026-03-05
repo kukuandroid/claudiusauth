@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { MaterialIcons as Icon } from '@react-native-vector-icons/material-icons';
 
+type IconName = React.ComponentProps<typeof Icon>['name'];
+
 interface AppButtonProps {
   title: string;
   onPress: () => void;
@@ -16,8 +18,9 @@ interface AppButtonProps {
   style?: ViewStyle;
   textStyle?: TextStyle;
   disabled?: boolean;
-  iconName?: string;
+  iconName?: IconName;
   iconSize?: number;
+  accessibilityLabel?: string;
 }
 
 const AppButton: React.FC<AppButtonProps> = ({
@@ -29,9 +32,23 @@ const AppButton: React.FC<AppButtonProps> = ({
   disabled = false,
   iconName,
   iconSize = 20,
+  accessibilityLabel,
 }) => {
   const buttonStyle = [styles[variant], style, disabled && styles.disabled];
   const buttonTextStyle = [styles[`${variant}Text`], textStyle];
+  
+  // Get the appropriate icon color based on variant
+  const getIconColor = (): string => {
+    switch (variant) {
+      case 'link':
+        return '#6b7280';
+      case 'danger':
+        return '#ffffff';
+      case 'primary':
+      default:
+        return '#ffffff';
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -39,10 +56,12 @@ const AppButton: React.FC<AppButtonProps> = ({
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.7}
+      accessibilityLabel={accessibilityLabel || title}
+      accessibilityRole="button"
     >
       {iconName ? (
         <View style={styles.buttonContent}>
-          <Icon name={iconName} size={iconSize} color="#ffffff" />
+          <Icon name={iconName} size={iconSize} color={getIconColor()} />
           <Text style={buttonTextStyle}>{title}</Text>
         </View>
       ) : (
@@ -91,6 +110,7 @@ const styles = StyleSheet.create({
   buttonContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 8,
   },
   disabled: {
     opacity: 0.5,
