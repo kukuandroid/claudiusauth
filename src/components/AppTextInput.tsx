@@ -7,7 +7,7 @@ import {
   StyleSheet,
   TextInputProps,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons as Icon } from '@react-native-vector-icons/material-icons';
 
 interface AppTextInputProps extends TextInputProps {
   label?: string;

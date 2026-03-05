@@ -5,7 +5,7 @@ import { RootStackParamList } from '../types';
 import { useAuth } from '../context/AuthContext';
 import AppText from '../components/AppText';
 import AppButton from '../components/AppButton';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons as Icon } from '@react-native-vector-icons/material-icons';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 

@@ -7,7 +7,7 @@ import {
   TextStyle,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons as Icon } from '@react-native-vector-icons/material-icons';
 
 interface AppButtonProps {
   title: string;
