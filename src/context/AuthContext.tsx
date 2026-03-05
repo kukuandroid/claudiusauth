@@ -12,7 +12,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Restore persisted session on mount
   useEffect(() => {
     AsyncStorage.getItem('user').then(raw => {
-      if (raw) setUser(JSON.parse(raw));
+      if (raw) {
+        const user = JSON.parse(raw);
+        setUser(user);
+      }
       setIsLoading(false);
     });
   }, []);
@@ -21,7 +24,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const found = usersRef.current.find(
       u => u.email === email && u.password === password
     );
-    if (!found) throw new Error('Invalid email or password.');
+    if (!found) {
+      throw new Error('Invalid email or password.');
+    }
     const loggedIn: User = { name: found.name, email: found.email };
     setUser(loggedIn);
     await AsyncStorage.setItem('user', JSON.stringify(loggedIn));
@@ -29,7 +34,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signup = async (name: string, email: string, password: string): Promise<void> => {
     const exists = usersRef.current.some(u => u.email === email);
-    if (exists) throw new Error('An account with this email already exists.');
+    if (exists) {
+      throw new Error('An account with this email already exists.');
+    }
     const newUser: StoredUser = { name, email, password };
     usersRef.current.push(newUser);
     const loggedIn: User = { name, email };
