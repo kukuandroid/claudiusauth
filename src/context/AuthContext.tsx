@@ -24,3 +24,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(loggedIn);
     await AsyncStorage.setItem('user', JSON.stringify(loggedIn));
   };
+
+  const signup = async (name: string, email: string, password: string): Promise<void> => {
+    const exists = usersRef.current.some(u => u.email === email);
+    if (exists) throw new Error('An account with this email already exists.');
+    const newUser: StoredUser = { name, email, password };
+    usersRef.current.push(newUser);
+    const loggedIn: User = { name, email };
+    setUser(loggedIn);
+    await AsyncStorage.setItem('user', JSON.stringify(loggedIn));
+  };
