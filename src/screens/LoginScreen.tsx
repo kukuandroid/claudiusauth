@@ -111,3 +111,33 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
       </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Password</Text>
+        <View style={styles.inputRow}>
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              value={password}
+              onChangeText={handlePasswordChange}
+              onBlur={handlePasswordBlur}
+              placeholder="Enter your password"
+              placeholderTextColor="#9ca3af"
+              secureTextEntry={!passwordVisible}
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.eyeIcon}
+            onPress={() => setPasswordVisible(v => !v)}
+          >
+            <Icon
+              name={passwordVisible ? 'visibility' : 'visibility-off'}
+              size={24}
+              color="#6b7280"
+            />
+          </TouchableOpacity>
+        </View>
+        {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+      </View>
