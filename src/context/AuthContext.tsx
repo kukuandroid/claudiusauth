@@ -14,3 +14,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (raw) setUser(JSON.parse(raw));
     });
   }, []);
+
+  const login = async (email: string, password: string): Promise<void> => {
+    const found = usersRef.current.find(
+      u => u.email === email && u.password === password
+    );
+    if (!found) throw new Error('Invalid email or password.');
+    const loggedIn: User = { name: found.name, email: found.email };
+    setUser(loggedIn);
+    await AsyncStorage.setItem('user', JSON.stringify(loggedIn));
+  };
