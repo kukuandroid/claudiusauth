@@ -87,3 +87,27 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     e.preventDefault();
     validateEmail();
   };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Welcome Back</Text>
+      <Text style={styles.subtitle}>Sign in to continue</Text>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Email</Text>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={handleEmailChange}
+            onBlur={handleEmailBlur}
+            onSubmitEditing={handleEmailSubmit}
+            placeholder="Enter your email"
+            placeholderTextColor="#9ca3af"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+        </View>
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+      </View>
