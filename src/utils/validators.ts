@@ -3,3 +3,6 @@ export const isValidEmail = (email: string): boolean =>
 
 export const isValidPassword = (password: string): boolean =>
   password.length >= 6;
+
+export const isNonEmpty = (value: string): boolean =>
+  value.trim().length > 0;
