@@ -26,10 +26,13 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [nameError, setNameError] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState<boolean>(false);
 
   const validateName = (): boolean => {
     if (!isNonEmpty(name)) {
@@ -66,12 +69,26 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
     return true;
   };
 
+  const validateConfirmPassword = (): boolean => {
+    if (!isNonEmpty(confirmPassword)) {
+      setConfirmPasswordError('Please confirm your password.');
+      return false;
+    }
+    if (confirmPassword !== password) {
+      setConfirmPasswordError('Passwords do not match.');
+      return false;
+    }
+    setConfirmPasswordError('');
+    return true;
+  };
+
   const handleSignup = async (): Promise<void> => {
     const isNameValid = validateName();
     const isEmailValid = validateEmail();
     const isPasswordValid = validatePassword();
+    const isConfirmPasswordValid = validateConfirmPassword();
 
-    if (!isNameValid || !isEmailValid || !isPasswordValid) {
+    if (!isNameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
       return;
     }
 
@@ -96,6 +113,10 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
     validatePassword();
   };
 
+  const handleConfirmPasswordBlur = (): void => {
+    validateConfirmPassword();
+  };
+
   const handleNameChange = (text: string): void => {
     setName(text);
     if (nameError) setNameError('');
@@ -111,6 +132,11 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
     if (passwordError) setPasswordError('');
   };
 
+  const handleConfirmPasswordChange = (text: string): void => {
+    setConfirmPassword(text);
+    if (confirmPasswordError) setConfirmPasswordError('');
+  };
+
   const handleNameSubmit = (
     e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
   ): void => {
@@ -123,6 +149,13 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
   ): void => {
     e.preventDefault();
     validateEmail();
+  };
+
+  const handlePasswordSubmit = (
+    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
+  ): void => {
+    e.preventDefault();
+    validatePassword();
   };
 
   return (
@@ -180,6 +213,7 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
             value={password}
             onChangeText={handlePasswordChange}
             onBlur={handlePasswordBlur}
+            onSubmitEditing={handlePasswordSubmit}
             placeholder="••••••••••••"
             secureTextEntry={!passwordVisible}
             autoCapitalize="none"
@@ -193,7 +227,24 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
             inputContainerStyle={styles.inputContainerStyle}
           />
 
-          <AppButton 
+          <AppTextInput
+            value={confirmPassword}
+            onChangeText={handleConfirmPasswordChange}
+            onBlur={handleConfirmPasswordBlur}
+            placeholder="Confirm Password"
+            secureTextEntry={!confirmPasswordVisible}
+            autoCapitalize="none"
+            autoCorrect={false}
+            error={confirmPasswordError}
+            showPasswordToggle
+            onPasswordToggle={() => setConfirmPasswordVisible(v => !v)}
+            isPasswordVisible={confirmPasswordVisible}
+            leftIconName="lock-outline"
+            containerStyle={styles.inputSpacing}
+            inputContainerStyle={styles.inputContainerStyle}
+          />
+
+          <AppButton
             title="Sign Up" 
             onPress={handleSignup} 
             style={styles.signInButton}
