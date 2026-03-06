@@ -1,5 +1,7 @@
 # ClaudiusAuthApp
 
+https://github.com/user-attachments/assets/f40822dc-1551-4f1d-bd06-8d24faea6ee6
+
 A React Native 0.84+ authentication application built with TypeScript, featuring Login, Signup, Loading, and Home screens with local authentication state management.
 
 ## Features
@@ -211,8 +213,6 @@ The app uses TypeScript interfaces defined in [`types/index.ts`](src/types/index
 - `npm start` - Start Metro bundler on port 8082
 - `npm run android` - Run on Android emulator/device (uses port 8082)
 - `npm run ios` - Run on iOS simulator/device (uses port 8082)
-- `npm test` - Run Jest tests
-- `npm run lint` - Run ESLint
 
 ### Custom Metro Port
 
