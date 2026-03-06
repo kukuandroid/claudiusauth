@@ -23,3 +23,67 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+
+  const validateEmail = (): boolean => {
+    if (!isNonEmpty(email)) {
+      setEmailError('Email is required.');
+      return false;
+    }
+    if (!isValidEmail(email)) {
+      setEmailError('Enter a valid email address.');
+      return false;
+    }
+    setEmailError('');
+    return true;
+  };
+
+  const validatePassword = (): boolean => {
+    if (!isNonEmpty(password)) {
+      setPasswordError('Password is required.');
+      return false;
+    }
+    setPasswordError('');
+    return true;
+  };
+
+  const handleLogin = async (): Promise<void> => {
+    const isEmailValid = validateEmail();
+    const isPasswordValid = validatePassword();
+
+    if (!isEmailValid || !isPasswordValid) {
+      return;
+    }
+
+    try {
+      await login(email, password);
+    } catch (error) {
+      if (error instanceof Error) {
+        setEmailError(error.message);
+      }
+    }
+  };
+
+  const handleEmailBlur = (): void => {
+    validateEmail();
+  };
+
+  const handlePasswordBlur = (): void => {
+    validatePassword();
+  };
+
+  const handleEmailChange = (text: string): void => {
+    setEmail(text);
+    if (emailError) setEmailError('');
+  };
+
+  const handlePasswordChange = (text: string): void => {
+    setPassword(text);
+    if (passwordError) setPasswordError('');
+  };
+
+  const handleEmailSubmit = (
+    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
+  ): void => {
+    e.preventDefault();
+    validateEmail();
+  };
