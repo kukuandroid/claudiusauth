@@ -13,3 +13,10 @@ export interface AuthContextType {
   signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
 }
+
+// React Navigation param list
+export type RootStackParamList = {
+  Login: undefined;
+  Signup: undefined;
+  Home: undefined;
+};
