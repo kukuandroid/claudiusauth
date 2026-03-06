@@ -141,3 +141,19 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         </View>
         {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
       </View>
+
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.linkButton}
+        onPress={() => navigation.navigate('Signup')}
+      >
+        <Text style={styles.linkText}>
+          Don't have an account? <Text style={styles.link}>Sign up</Text>
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
