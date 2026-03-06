@@ -34,3 +34,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(loggedIn);
     await AsyncStorage.setItem('user', JSON.stringify(loggedIn));
   };
+
+  const logout = (): void => {
+    setUser(null);
+    AsyncStorage.removeItem('user');
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, signup, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
