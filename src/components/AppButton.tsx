@@ -58,6 +58,8 @@ const AppButton: React.FC<AppButtonProps> = ({
       activeOpacity={0.7}
       accessibilityLabel={accessibilityLabel || title}
       accessibilityRole="button"
+      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+      delayPressIn={0}
     >
       {iconName ? (
         <View style={styles.buttonContent}>
