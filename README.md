@@ -1,97 +1,237 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# ClaudiusAuthApp
 
-# Getting Started
+A React Native 0.84+ authentication application built with TypeScript, featuring Login, Signup, and Home screens with local authentication state management.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Features
 
-## Step 1: Start Metro
+- **User Authentication**: Complete login and signup flow with form validation
+- **TypeScript**: Fully typed codebase with strict TypeScript configuration
+- **React Navigation v7**: Native stack navigation with auth-conditional routing
+- **Context API**: Centralized authentication state management
+- **AsyncStorage**: Session persistence for logged-in users
+- **Form Validation**: Inline error messages for all form fields
+- **Password Visibility Toggle**: Eye icon to show/hide passwords
+- **Modern UI**: Clean, responsive design with Material Icons
+- **New Architecture**: React Native 0.84+ with New Architecture enabled
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Tech Stack
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+| Technology | Version |
+|------------|---------|
+| React Native | 0.84.1 |
+| React | 19.2.3 |
+| TypeScript | 5.8.3 |
+| React Navigation | v7 |
+| AsyncStorage | @react-native-async-storage/async-storage |
+| Vector Icons | react-native-vector-icons |
 
-```sh
-# Using npm
-npm start
+## Project Structure
 
-# OR using Yarn
-yarn start
+```
+/
+├── src/
+│   ├── context/
+│   │   └── AuthContext.tsx       # Auth context + provider + useAuth hook
+│   ├── screens/
+│   │   ├── LoginScreen.tsx       # Login form, validation, error display
+│   │   ├── SignupScreen.tsx      # Signup form, validation, error display
+│   │   └── HomeScreen.tsx        # User info display + logout
+│   ├── navigation/
+│   │   └── AppNavigator.tsx      # Auth-conditional native stack navigator
+│   ├── utils/
+│   │   └── validators.ts         # Pure validation helper functions
+│   └── types/
+│       └── index.ts              # Shared TypeScript types & interfaces
+├── App.tsx                       # Root: AuthProvider wrapping AppNavigator
+├── tsconfig.json                 # TypeScript configuration
+└── README.md                     # This file
 ```
 
-## Step 2: Build and run your app
+## Prerequisites
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+- Node.js >= 22.11.0
+- npm or yarn
+- React Native CLI
+- For iOS: macOS with Xcode
+- For Android: Android Studio with SDK
 
-### Android
+## Installation
 
-```sh
-# Using npm
-npm run android
+1. **Clone the repository** (if applicable)
+   ```bash
+   git clone <repository-url>
+   cd claudiusauth
+   ```
 
-# OR using Yarn
-yarn android
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Install iOS pods** (iOS only)
+   ```bash
+   cd ios && bundle exec pod install && cd ..
+   ```
+
+## Running the App
 
 ### iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+```bash
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### Android
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+npm run android
+```
 
-## Step 3: Modify your app
+### Start Metro Bundler
 
-Now that you have successfully run the app, let's make changes!
+```bash
+npm start
+```
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## Usage
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+### Signup
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+1. Launch the app
+2. Tap "Sign up" on the login screen
+3. Enter your name, email, and password (minimum 6 characters)
+4. Tap "Sign Up" to create your account
 
-## Congratulations! :tada:
+### Login
 
-You've successfully run and modified your React Native App. :partying_face:
+1. Enter your registered email and password
+2. Tap "Login" to sign in
 
-### Now what?
+### Home Screen
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+- View your name and email
+- Tap "Logout" to sign out (returns to login screen)
 
-# Troubleshooting
+## Authentication Flow
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+The app uses a local authentication system with the following flow:
 
-# Learn More
+1. **Signup**: User data is stored in memory and persisted to AsyncStorage
+2. **Login**: Credentials are validated against stored users
+3. **Session**: Auth state is persisted and restored on app launch
+4. **Logout**: Session is cleared and user returns to login screen
 
-To learn more about React Native, take a look at the following resources:
+## Validation Rules
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+### Login Screen
+- Email: Required, must be valid email format
+- Password: Required
+
+### Signup Screen
+- Name: Required
+- Email: Required, must be valid email format, must be unique
+- Password: Required, minimum 6 characters
+
+## Key Implementation Details
+
+### Authentication Context
+
+The [`AuthContext`](src/context/AuthContext.tsx) provides:
+- `user`: Current logged-in user object or null
+- `login(email, password)`: Authenticate user
+- `signup(name, email, password)`: Create new user
+- `logout()`: Clear session and sign out
+
+### Navigation
+
+The [`AppNavigator`](src/navigation/AppNavigator.tsx) uses conditional rendering:
+- When `user` is null: Show Login and Signup screens
+- When `user` exists: Show Home screen only
+
+### Form Validation
+
+All validation is performed using helper functions from [`validators.ts`](src/utils/validators.ts):
+- `isValidEmail()`: Validates email format
+- `isValidPassword()`: Checks minimum password length
+- `isNonEmpty()`: Validates non-empty strings
+
+## TypeScript Configuration
+
+The project uses strict TypeScript with:
+- `strict: true`
+- `noImplicitAny: true`
+- Path aliases: `@/*` maps to `src/*`
+
+## Styling Guidelines
+
+All styles use `StyleSheet.create()` with explicit typing:
+- Input wrapper: `borderWidth: 1`, `borderRadius: 8`
+- Active border: `borderColor: '#4f46e5'`
+- Buttons: `backgroundColor: '#4f46e5'`, `borderRadius: 8`
+- Error text: `color: '#dc2626'`, `fontSize: 12`
+
+## Development
+
+### Available Scripts
+
+- `npm start` - Start Metro bundler
+- `npm run android` - Run on Android emulator/device
+- `npm run ios` - Run on iOS simulator/device
+- `npm test` - Run Jest tests
+- `npm run lint` - Run ESLint
+
+### Code Style
+
+The project uses:
+- ESLint for code linting
+- Prettier for code formatting
+- TypeScript for type safety
+
+## Troubleshooting
+
+### iOS Build Issues
+
+If you encounter iOS build issues:
+```bash
+cd ios
+rm -rf Pods Podfile.lock
+bundle exec pod install
+cd ..
+npm run ios
+```
+
+### Android Build Issues
+
+If you encounter Android build issues:
+```bash
+cd android
+./gradlew clean
+cd ..
+npm run android
+```
+
+### Metro Bundler Issues
+
+If Metro bundler has issues:
+```bash
+npm start -- --reset-cache
+```
+
+## Future Enhancements
+
+Potential improvements for the app:
+- Password reset functionality
+- Remember me option
+- Social media login integration
+- Biometric authentication
+- Profile editing
+- Email verification
+- Backend API integration
+
+## License
+
+This project is for educational purposes.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
