@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Image,
+  Image
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types';
@@ -101,6 +101,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         {/* Top illustration */}
         <View style={styles.illustrationContainer}>
