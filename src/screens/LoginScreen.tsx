@@ -157,3 +157,83 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    backgroundColor: '#ffffff',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#6b7280',
+    marginBottom: 32,
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 8,
+  },
+  inputWrapper: {
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  input: {
+    fontSize: 16,
+    color: '#111827',
+    flex: 1,
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: 12,
+  },
+  errorText: {
+    color: '#dc2626',
+    fontSize: 12,
+    marginTop: 4,
+  },
+  button: {
+    backgroundColor: '#4f46e5',
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  linkButton: {
+    marginTop: 24,
+    alignItems: 'center',
+  },
+  linkText: {
+    fontSize: 14,
+    color: '#6b7280',
+  },
+  link: {
+    color: '#4f46e5',
+    fontWeight: '600',
+  },
+});
+
+export default LoginScreen;
